@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+  dnscrypt:
+    container_name: dnscrypt
+    image: klutchell/dnscrypt-proxy:latest
+    networks:
+      homelab:
+        ipv4_address: 10.10.10.2
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    restart: unless-stopped
+
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 8080:80/tcp
+    environment:
+      WEBPASSWORD: "${WEBPASSWORD}"
+      TZ: Europe/Sofia
+      SERVERIP: 10.10.10.3
+      DNS1: 10.10.10.2#5053
+      IPv6: false
+      DNSMASQ_LISTENING: all
+    networks:
+      homelab:
+        ipv4_address: 10.10.10.3
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    volumes:
+      - pihole:/etc/pihole
+      - dnsmasq:/etc/dnsmasq.d
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
+volumes:
+    pihole:
+    dnsmasq:
+
+networks:
+  homelab:
+    name: homelab
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.0.0/16
