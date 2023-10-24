@@ -1,0 +1,23 @@
+---
+version: "2.1"
+services:
+  heimdall:
+    image: lscr.io/linuxserver/heimdall:latest
+    networks:
+      - homelab
+    container_name: heimdall
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Sofia
+    volumes:
+      - heimdall:/config
+    restart: unless-stopped
+
+volumes:
+    heimdall:
+
+networks:
+  homelab:
+    name: homelab
+    external: true
