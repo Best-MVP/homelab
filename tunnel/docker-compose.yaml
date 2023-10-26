@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    volumes:
+      - ./cloudflared:/home/nonroot/.cloudflared
+    command: tunnel --config /home/nonroot/.cloudflared/config.yaml --no-tls-verify run
+    restart: always
+    networks:
+      - homelab
+
+networks:
+  homelab:
+    name: homelab
+    external: true

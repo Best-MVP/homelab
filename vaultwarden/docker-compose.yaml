@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  vaultwarden:
+    container_name: vaultwarden
+    image: vaultwarden/server:latest
+    restart: unless-stopped
+    volumes:
+      - ./data/:/data/
+    networks:
+      - homelab
+
+networks:
+  homelab:
+    name: homelab
+    external: true
