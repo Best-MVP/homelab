@@ -4,8 +4,8 @@ services:
   monitoring:
     container_name: glances
     image: nicolargo/glances:latest-alpine
-    networks:
-      - homelab
+      networks:
+        - homelab
     restart: always
     pid: host
     volumes:

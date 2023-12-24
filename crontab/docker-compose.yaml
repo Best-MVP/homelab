@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  crontab:
+    image: ghcr.io/best-mvp/docker-crontab:latest
+    networks:
+      - homelab
+    container_name: crontab
+    restart: always
+    volumes:
+      - "/Users/rstefanov/.ssh/id_ed25519:/root/.ssh/id_ed25519:ro"
+      - "/Users/rstefanov/NAS/Backups/wordpress:/mnt/backups"
+      - "./rsnapshot.conf:/etc/rsnapshot.conf"
+      - "./scripts:/scripts:ro"
+      - "./crontab-jobs:/etc/cron.d/jobs:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+
+networks:
+  homelab:
+    name: homelab
+    external: true
