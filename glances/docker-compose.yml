@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  monitoring:
+  glances:
     container_name: glances
     image: nicolargo/glances:latest-alpine
     networks:
