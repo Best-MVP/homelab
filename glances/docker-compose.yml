@@ -13,6 +13,9 @@ services:
     environment:
       - "GLANCES_OPT=-w"
 
+  nginx:
+    image: nginx:latest
+
 networks:
   homelab:
     external: true
